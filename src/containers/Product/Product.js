@@ -23,16 +23,12 @@ const Product = () => {
   useEffect(() => {
     const fetchData = async () => {
       const productId = localStorage.getItem("id");
-      console.log(productId);
       const data = await getproduct(productId);
-      console.log(data);
       setProduct(data);
       setLoading(false);
     };
     fetchData();
   }, []);
-
-  console.log(loading);
 
   return (
     <BasePage>

@@ -29,7 +29,6 @@ const loginSchema = Yup.object().shape({
 
 const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     const userData = await postLogin(values);
-    console.log(userData.data.status);
     if (userData.data.status) {
       Cookies.set("user", "loginTrue");
       setUserToken(userData.data.userToken);

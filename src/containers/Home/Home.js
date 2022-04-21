@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 import colors from "../../helpers/colors";
 
-import { listproducts } from "../../services/products";
+import { listproducts, searchProduct } from "../../services/products";
 
 import BasePage from "../../components/BasePage";
 import Loading from "../../components/Loading";
+import BigButton from "../../components/BigButton";
 
 const setDisableButton = (pages) => (pages === 0 ? true : false);
 
@@ -25,6 +27,7 @@ const InfoPages = ({ total, pages }) => {
 
 const Home = () => {
   const history = useNavigate();
+  const [searchValue, setSearchValue] = useState("");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [findedResults, setFindedResults] = useState(0);
@@ -46,11 +49,45 @@ const Home = () => {
     history("/produto");
   };
 
+  const searchPokemons = async () => {
+    if (searchValue !== "") {
+      setLoading(true);
+      const data = await searchProduct(searchValue);
+      if (!data.status) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `Produto ${searchValue} não encontrado`,
+        })
+      } else {
+        setProducts([data.product]);
+        setFindedResults(1);
+      }
+      setLoading(false);
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      searchPokemons();
+    }
+  };
+
   return (
     <>
       <BasePage>
         {loading ? <Loading /> :
           <>
+            <Header>
+              <Input
+                type="text"
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                placeholder="Procure um produto"
+                onKeyDown={handleKeyDown}
+              />
+              <Button onClick={() => searchPokemons()}>Search</Button>
+            </Header>
             <Grid>
               {products.map((pokemon) => {
                 const name = pokemon.name;
@@ -67,6 +104,7 @@ const Home = () => {
                 );
               })}
             </Grid>
+            {findedResults === 1 ? <></> :
             <Footer>
               <Button
                 disabled={setDisableButton(pagination)}
@@ -78,14 +116,41 @@ const Home = () => {
               <Button onClick={() => setPagination(pagination + 9)}>
                 <IoIosArrowForward />
               </Button>
-            </Footer>
-          
+            </Footer> 
+            }
           </>
         }
       </BasePage>
     </>
   );
 };
+
+const Header = styled.div`
+  text-align: center;
+`;
+
+const Input = styled.input`
+  height: 18px;
+  margin-right: 10px;
+  border: 1px solid ${colors.secondaryGreen};
+  color: ${colors.secondaryGreen};
+  background: ${colors.white};
+
+  :focus {
+    border: 1px solid ${colors.secondaryGreen};
+  }
+`;
+
+const Button = styled(BigButton)`
+  background: ${colors.white};
+  border: 1px solid ${colors.secondaryGreen};
+  color: ${colors.secondaryGreen};
+  height: 25px;
+
+  :disabled {
+    cursor: default;
+  }
+`;
 
 const Grid = styled.div`
   display: grid;
@@ -124,17 +189,6 @@ const Footer = styled.div`
   color: ${colors.secondaryGreen};
   text-align: center;
   margin-bottom: 10px;
-`;
-
-const Button = styled.button`
-  border: 1px solid ${colors.secondaryGreen};
-  color: ${colors.secondaryGreen};
-  height: 30px;
-  cursor: pointer;
-
-  :disabled {
-    cursor: default;
-  }
 `;
 
 export default Home;
