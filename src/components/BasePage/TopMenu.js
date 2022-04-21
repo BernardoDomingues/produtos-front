@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import styled from "styled-components";
@@ -17,7 +17,7 @@ import { ItemMenu } from '../../components/DropDownMenu/ItemMenu';
 const TopMenu = () => {
   const { loginAuth, userData } = useLogin();
   const [userMenuState, setUserMenuState] = useState(false);
-  const history = useHistory();
+  const history = useNavigate();
 
   const openMenu = (state) => {
     if (state) {
@@ -45,7 +45,7 @@ const TopMenu = () => {
         {loginAuth && (<UserOptions onClick={() => setUserMenuState(!userMenuState)}><UserIcon />{userData.userName}</UserOptions>)}
         <Menu display={openMenu(userMenuState)}>
           <ItemMenu onClick={() => handleLogout()}>Logout</ItemMenu>
-          <ItemMenu onClick={() => history.push("/perfil")}>Perfil</ItemMenu>
+          <ItemMenu onClick={() => history("/perfil")}>Perfil</ItemMenu>
         </Menu>
       </NavBtn>
     </Nav>

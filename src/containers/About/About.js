@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import BasePage from "../../components/BasePage";
 import colors from "../../helpers/colors";
+import { AiFillGithub, AiFillLinkedin } from 'react-icons/ai';
+import { FaWikipediaW } from 'react-icons/fa';
+import { AiOutlineGlobal } from 'react-icons/ai';
 
 const About = () => {
   return (
@@ -14,8 +17,8 @@ const About = () => {
               Apaixonado por tecnologia, desde cedo me interessei pelo mundo da
               programação, sempre buscando aprender coisas novas e expandindo
               meus horizontes.No momento da criação desse projeto, cursava o
-              quarto período de Engenharia de Computação na UNIFEI e trabalhando
-              há 1 ano na Rede Melhor Compra.
+              quinto período de Engenharia de Computação na UNIFEI e trabalhando
+              há quase 2 anos na Rede Melhor Compra.
             </p>
             <CardFooter>
               <span
@@ -27,7 +30,7 @@ const About = () => {
                 }
                 style={{ cursor: 'pointer' }}
               >
-                LinkedIn
+                <AiFillLinkedin />
               </span>
               <br />
               <span
@@ -39,7 +42,7 @@ const About = () => {
                 }
                 style={{ cursor: 'pointer' }}
               >
-                GitHub
+                <AiFillGithub />
               </span>
             </CardFooter>
           </Card>
@@ -53,7 +56,7 @@ const About = () => {
               ensino.
             </p>
             <CardFooter>
-              <span
+              <div
                 onClick={() =>
                   window.open(
                     "https://unifei.edu.br/",
@@ -62,10 +65,9 @@ const About = () => {
                 }
                 style={{ cursor: 'pointer' }}
               >
-                WebSite
-              </span>
-              <br />
-              <span
+                <AiOutlineGlobal />
+              </div>
+              <div
                 onClick={() =>
                   window.open(
                     "https://pt.wikipedia.org/wiki/Universidade_Federal_de_Itajub%C3%A1",
@@ -74,8 +76,8 @@ const About = () => {
                 }
                 style={{ cursor: 'pointer' }}
               >
-                Wikipedia
-              </span>
+                <FaWikipediaW />
+              </div>
             </CardFooter>
           </Card>
         </ProfileGrid>
@@ -88,11 +90,11 @@ const ProfileGrid = styled.div`
   margin: 50px 180px 50px 180px;
   display: grid;
   gap: 20px;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   grid-auto-flow: column;
 
   @media screen and (max-width: 800px) {
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     grid-auto-flow: column;
   }
 
@@ -108,7 +110,7 @@ const Card = styled.div`
   border-radius: 25px;
   padding: 10px;
   font-size: 20px;
-  height: 500px;
+  height: 400px;
   min-width: 300px;
   background-color: ${colors.secondaryGreen};
   color: ${colors.backgroundColor};
@@ -127,6 +129,9 @@ const CardFooter = styled.div`
   text-decoration: none;
   color: ${colors.backgroundColor};
   margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 `;
 
 export default About;

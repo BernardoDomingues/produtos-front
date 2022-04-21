@@ -1,15 +1,15 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import LogoImage from "../assets/Exemplo.png";
 
 const Logo = ({ extraStyle }) => {
-  const history = useHistory();
+  const history = useNavigate();
   return (
     <Image
       src={LogoImage}
       alt="project logo"
-      onClick={() => history.push("./")}
+      onClick={() => history("/")}
       extraStyle={extraStyle}
     />
   );
