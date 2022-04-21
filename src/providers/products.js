@@ -7,16 +7,17 @@ export const ProductsContext = React.createContext({});
 
 export const ProductsProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
+  const [reloadPage, setReloadPage] = useState(false);
 
-  const addToCart = (productId) => {
+  const addToCart = (productData) => {
     const searchCart = Cookies.get("cart");
     if (searchCart) {
       const oldCart = JSON.parse(Cookies.get("cart"));
-      const newCart = [...oldCart, productId];
+      const newCart = [...oldCart, productData];
       Cookies.set("cart", JSON.stringify(newCart));
       setCart(newCart);
     } else {
-      const newCart = [productId];
+      const newCart = [productData];
       Cookies.set("cart", JSON.stringify(newCart));
       setCart(newCart);
     }
@@ -32,7 +33,16 @@ export const ProductsProvider = ({ children }) => {
     if (searchCart) {
       setCart(JSON.parse(searchCart));
     }
-  }
+  };
+
+  const removeToCart = (productIndex) => {
+    const oldCart = cart.slice();
+    oldCart.splice(productIndex, 1);
+    const newCart = Array.from(oldCart);
+    Cookies.set("cart", JSON.stringify(newCart));
+    setCart(newCart);
+    setReloadPage(!reloadPage)
+  };
 
   useEffect(() => {
     checkCart();
@@ -43,7 +53,9 @@ export const ProductsProvider = ({ children }) => {
       value={{
         cart,
         setCart,
-        addToCart
+        addToCart,
+        removeToCart,
+        reloadPage
       }}
     >
       {children}

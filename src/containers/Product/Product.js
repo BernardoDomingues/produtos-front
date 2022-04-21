@@ -68,7 +68,7 @@ const Product = () => {
             </div>
           ))}
           <ButtonArea>
-            <BigButton onClick={() => addToCart(product.id)}><BsCartPlus /> Adicionar ao carrinho</BigButton>
+            <BigButton onClick={() => addToCart({id: product.id, name: product.name})}><BsCartPlus /> Adicionar ao carrinho</BigButton>
           </ButtonArea>
         </div>
       </Container>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { IoTrashBinOutline } from 'react-icons/io5';
 
 import colors from "../../helpers/colors";
 
@@ -12,25 +13,25 @@ import Loading from "../../components/Loading";
 import BigButton from "../../components/BigButton";
 
 const Cart = () => {
-  const { cart } = useProducts();
+  const { cart, removeToCart, reloadPage } = useProducts();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await Promise.all(cart.map(async (id) => await getproduct(id)));
+      const data = await Promise.all(cart.map(async (productData) => await getproduct(productData.id)));
       setProducts(data);
       setLoading(false);
     };
 
     fetchData();
-  }, []);
+  }, [reloadPage]);
 
   return (
     <BasePage>
       {loading ? <Loading /> : 
         <Grid>
-          {products.map((product) => {
+          {products.map((product, index) => {
             const name = product.name;
             const frontImage = product.frontImage;
             const backImage = product.backImage;
@@ -41,6 +42,7 @@ const Cart = () => {
                   <img id="FRONT_IMAGE" src={frontImage} alt="front product img" />
                   <img id="BACK_IMAGE" src={backImage} alt="front product img" />
                 </Images>
+                <TrashDiv onClick={() => removeToCart(index)}><IoTrashBinOutline /></TrashDiv>
               </Card>
             );
           })}
@@ -67,6 +69,7 @@ const Card = styled.div`
 
   h4 {
     text-transform: capitalize;
+    color: ${colors.primaryGreen};
   }
 `;
 
@@ -83,6 +86,12 @@ const Images = styled.span`
       display: inline;
     }
   }
+`;
+
+const TrashDiv = styled.div`
+  cursor: pointer;
+  font-size: 25px;
+  color: ${colors.red};
 `;
 
 const ButtonArea = styled.div`

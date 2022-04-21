@@ -166,6 +166,7 @@ const Card = styled.div`
   cursor: pointer;
 
   h4 {
+    color: ${colors.primaryGreen};
     text-transform: capitalize;
   }
 `;
