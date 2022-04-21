@@ -3,9 +3,15 @@ import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 
+import { createSell } from "../services/sells";
+
+import { useLogin } from "./login";
+
 export const ProductsContext = React.createContext({});
 
 export const ProductsProvider = ({ children }) => {
+  const { userToken } = useLogin();
+
   const [cart, setCart] = useState([]);
   const [reloadPage, setReloadPage] = useState(false);
 
@@ -44,6 +50,32 @@ export const ProductsProvider = ({ children }) => {
     setReloadPage(!reloadPage)
   };
 
+  const sendSell = async () => {
+    Swal.fire({
+      title: 'Finalizar venda?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Confirmar',
+      denyButtonText: `Cancelar`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const sell = await createSell({products: cart}, userToken);
+        if (sell.error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: sell.error,
+          })
+        } else {
+          Swal.fire('Venda Criada!', '', 'success');
+          setCart([]);
+          Cookies.remove("cart");
+          setReloadPage(!reloadPage);
+        }
+      }
+    })
+  };
+
   useEffect(() => {
     checkCart();
   }, []);
@@ -55,7 +87,8 @@ export const ProductsProvider = ({ children }) => {
         setCart,
         addToCart,
         removeToCart,
-        reloadPage
+        reloadPage,
+        sendSell
       }}
     >
       {children}

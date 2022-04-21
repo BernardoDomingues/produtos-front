@@ -13,7 +13,13 @@ import Loading from "../../components/Loading";
 import BigButton from "../../components/BigButton";
 
 const Cart = () => {
-  const { cart, removeToCart, reloadPage } = useProducts();
+  const {
+    cart,
+    removeToCart,
+    reloadPage,
+    sendSell
+  } = useProducts();
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -49,7 +55,7 @@ const Cart = () => {
         </Grid>
       }
       <ButtonArea>
-        <BigButton>Finalizar Compra</BigButton>
+        {cart.length === 0 ? <div>Carrinho Vazio</div> : <BigButton onClick={() => sendSell()}>Finalizar Compra</BigButton>}
       </ButtonArea>
     </BasePage>
   )
