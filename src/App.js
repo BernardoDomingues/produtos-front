@@ -13,6 +13,7 @@ import About from "./containers/About";
 import Singin from "./containers/Login";
 import Error from "./containers/Error";
 import Profile from "./containers/Profile";
+import Product from "./containers/Product";
 
 const App = () => {
   const { loginAuth } = useLogin();
@@ -22,6 +23,7 @@ const App = () => {
       <Routes>
         <Route path="/sobre" element={<About />} />
         <Route path="/" element={<Home />} />
+        <Route path="/produto" element={<Product />} />
         <Route
           path="/login"
           element={!loginAuth ? <Singin /> : <Navigate to="/" />}

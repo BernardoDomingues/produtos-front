@@ -11,4 +11,16 @@ const listproducts = (pagination) =>
       }
       return error.response.data;
   });
-export { listproducts };
+
+const getproduct = (id) =>
+  axios
+    .get(`${URL_BACK}/findProduct/${id}`)
+    .then((res) => res.data.product)
+    .catch((error) => {
+      if (!error.response) {
+        return false;
+      }
+      return error.response.data;
+  });
+
+export { listproducts, getproduct };
