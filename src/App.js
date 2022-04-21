@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
-function App() {
+import { useLogin } from "./providers/login";
+
+import Home from "./containers/Home";
+import About from "./containers/About";
+import Singin from "./containers/Login";
+import Error from "./containers/Error";
+import Profile from "./containers/Profile";
+
+const ProtectedRoute = ({ auth, component: Component, ...rest }) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Route
+      {...rest}
+      render={() => (auth ? <Component /> : <Redirect to="/login" />)}
+    />
   );
-}
+};
+
+const ProtectedLogin = ({ auth, component: Component, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={() => (!auth ? <Component /> : <Redirect to="/perfil" />)}
+    />
+  );
+};
+
+const App = () => {
+  const { loginAuth } = useLogin();
+
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={Home} key="/" />
+        <Route exact path="/sobre" component={About} key="/sobre" />
+        <ProtectedLogin path="/login" auth={loginAuth} component={Singin} />
+        <ProtectedRoute path="/perfil" auth={loginAuth} component={Profile} />
+        <Route exact path="*" component={Error} />
+      </Switch>
+    </BrowserRouter>
+  );
+};
 
 export default App;
