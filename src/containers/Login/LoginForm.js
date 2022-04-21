@@ -3,8 +3,10 @@ import styled from "styled-components";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
+import jwtDecode from "jwt-decode";
 
-// import { postLogin } from "services/login";
+import { postLogin } from "../../services/login";
 
 import { useLogin } from '../../providers/login';
 
@@ -13,25 +15,34 @@ import InputField from "../../components/InputField";
 import BigButton from "../../components/BigButton";
 
 const LoginForm = () => {
-  const { setFormState, setLoginAuth, setUserData } = useLogin();
+  const { setFormState, setLoginAuth, setUserToken, setUserData } = useLogin();
   
 const values = { email: "", password: "" }
 
 const loginSchema = Yup.object().shape({
   password: Yup.string()
-    .min(8, "Muito Pequena!")
+    .min(5, "Muito Pequena!")
     .max(50, "Muito Longa!")
     .required("Campo Obrigatório!"),
   email: Yup.string().email("Email Inválido!").required("Campo Obrigatório!")
 });
 
 const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-    const userData = await alert(values);
+    const userData = await postLogin(values);
+    console.log(userData.data.status);
     if (userData.data.status) {
       Cookies.set("user", "loginTrue");
-      setUserData(userData.data.userData);
-      setLoginAuth(true)
-      Cookies.set("userData", JSON.stringify(userData.data.userData));
+      setUserToken(userData.data.userToken);
+      const user = jwtDecode(userData.data.userToken);
+      setUserData(user);
+      setLoginAuth(true);
+      Cookies.set("userToken", userData.data.userToken);
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: userData.data.error,
+      })
     }
     setSubmitting(false);
     resetForm();

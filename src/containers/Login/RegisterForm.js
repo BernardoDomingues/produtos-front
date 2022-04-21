@@ -2,7 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-// import { postRegister } from "services/register";
+import Swal from "sweetalert2";
+
+import { postRegister } from "../../services/register";
 
 import { useLogin } from "../../providers/login";
 
@@ -24,7 +26,7 @@ const RegisterForm = () => {
     name: Yup.string().required("Nome de usuário Obrigatório!"),
     email: Yup.string().email("Email Inválido!").required("Campo Obrigatório!"),
     password: Yup.string()
-      .min(8, "Muito Pequena!")
+      .min(5, "Muito Pequena!")
       .max(50, "Muito Longa!")
       .required("Campo Obrigatório!"),
     passwordConfirmation: Yup.string().oneOf(
@@ -34,10 +36,20 @@ const RegisterForm = () => {
   });
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-    await alert(values);
-    setSubmitting(false);
-    resetForm();
-    setFormState("login");
+    const response = await postRegister(values);
+    if (response.errors) {
+      let errors = '';
+      response.errors.map((error) => errors = `${errors}${error.msg}.`);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: errors,
+      })
+    } else {
+      setSubmitting(false);
+      resetForm();
+      setFormState("login");
+    }
   };
   return (
     <>

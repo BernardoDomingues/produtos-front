@@ -27,8 +27,8 @@ const TopMenu = () => {
 
   const handleLogout = () => {
     Cookies.remove("user");
-    Cookies.remove("userData");
-    history.go(0);
+    Cookies.remove("userToken");
+    history(0);
   }
 
   return (
@@ -42,7 +42,7 @@ const TopMenu = () => {
       </NavMenu>
       <NavBtn>
         {!loginAuth && (<NavButtonLink to="/login">Entrar</NavButtonLink>)}
-        {loginAuth && (<UserOptions onClick={() => setUserMenuState(!userMenuState)}><UserIcon />{userData.userName}</UserOptions>)}
+        {loginAuth && (<UserOptions onClick={() => setUserMenuState(!userMenuState)}><UserIcon />{userData.name}</UserOptions>)}
         <Menu display={openMenu(userMenuState)}>
           <ItemMenu onClick={() => handleLogout()}>Logout</ItemMenu>
           <ItemMenu onClick={() => history("/perfil")}>Perfil</ItemMenu>

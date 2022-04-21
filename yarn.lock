@@ -5607,6 +5607,11 @@ jsonpointer@^5.0.0:
     array-includes "^3.1.4"
     object.assign "^4.1.2"
 
+jwt-decode@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-3.1.2.tgz#3fb319f3675a2df0c2895c8f5e9fa4b67b04ed59"
+  integrity sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==
+
 kind-of@^6.0.2:
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
@@ -7994,6 +7999,11 @@ svgo@^2.7.0:
     csso "^4.2.0"
     picocolors "^1.0.0"
     stable "^0.1.8"
+
+sweetalert2@^11.4.8:
+  version "11.4.8"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.4.8.tgz#f436eb34107c5637a0278fa7330edc722090ebbb"
+  integrity sha512-BDS/+E8RwaekGSxCPUbPnsRAyQ439gtXkTF/s98vY2l9DaVEOMjGj1FaQSorfGREKsbbxGSP7UXboibL5vgTMA==
 
 symbol-tree@^3.2.4:
   version "3.2.4"

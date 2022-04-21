@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
 
 export const LoginContext = React.createContext({});
 
@@ -8,6 +9,7 @@ export const LoginProvider = ({ children }) => {
   const [formState, setFormState] = useState("login");
   const [loginAuth, setLoginAuth] = useState(false);
   const [userToken, setUserToken] = useState('');
+  const [userData, setUserData] = useState({});
 
   const readCookie = () => {
     const user = Cookies.get("user");
@@ -15,6 +17,8 @@ export const LoginProvider = ({ children }) => {
     if (user) {
       setLoginAuth(true);
       setUserToken(cookiesUserToken);
+      const user = jwtDecode(cookiesUserToken);
+      setUserData(user);
     }
   };
 
@@ -31,6 +35,8 @@ export const LoginProvider = ({ children }) => {
         setLoginAuth,
         setUserToken,
         userToken,
+        setUserData,
+        userData,
       }}
     >
       {children}
