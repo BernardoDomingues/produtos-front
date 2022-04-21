@@ -27,7 +27,7 @@ const App = () => {
           element={!loginAuth ? <Singin /> : <Navigate to="/" />}
         />
         <Route
-          path="/"
+          path="/perfil"
           element={loginAuth ? <Profile /> : <Navigate to="/login" />}
         />
         <Route path="*" element={<Error />} />
