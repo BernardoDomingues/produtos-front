@@ -49,7 +49,7 @@ const Home = () => {
     history("/produto");
   };
 
-  const searchPokemons = async () => {
+  const searchProducts = async () => {
     if (searchValue !== "") {
       setLoading(true);
       const data = await searchProduct(searchValue);
@@ -69,7 +69,7 @@ const Home = () => {
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      searchPokemons();
+      searchProducts();
     }
   };
 
@@ -86,19 +86,19 @@ const Home = () => {
                 placeholder="Procure um produto"
                 onKeyDown={handleKeyDown}
               />
-              <Button onClick={() => searchPokemons()}>Search</Button>
+              <Button onClick={() => searchProducts()}>Search</Button>
             </Header>
             <Grid>
-              {products.map((pokemon) => {
-                const name = pokemon.name;
-                const frontImage = pokemon.frontImage;
-                const backImage = pokemon.backImage;
+              {products.map((product) => {
+                const name = product.name;
+                const frontImage = product.frontImage;
+                const backImage = product.backImage;
                 return (
-                  <Card key={pokemon.id} onClick={() => setProduct(pokemon.id)}>
+                  <Card key={product.id} onClick={() => setProduct(product.id)}>
                     <h4>{name}</h4>
                     <Images>
-                      <img id="FRONT_IMAGE" src={frontImage} alt="front pokemon img" />
-                      <img id="BACK_IMAGE" src={backImage} alt="front pokemon img" />
+                      <img id="FRONT_IMAGE" src={frontImage} alt="front product img" />
+                      <img id="BACK_IMAGE" src={backImage} alt="front product img" />
                     </Images>
                   </Card>
                 );

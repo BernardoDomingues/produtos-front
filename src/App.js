@@ -14,6 +14,7 @@ import Singin from "./containers/Login";
 import Error from "./containers/Error";
 import Profile from "./containers/Profile";
 import Product from "./containers/Product";
+import Cart from "./containers/Cart";
 
 const App = () => {
   const { loginAuth } = useLogin();
@@ -31,6 +32,10 @@ const App = () => {
         <Route
           path="/perfil"
           element={loginAuth ? <Profile /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/carrinho"
+          element={loginAuth ? <Cart /> : <Navigate to="/login" />}
         />
         <Route path="*" element={<Error />} />
       </Routes>

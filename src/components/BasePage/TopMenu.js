@@ -6,8 +6,10 @@ import styled from "styled-components";
 import colors from "../../helpers/colors";
 import { MdToc } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
+import { BsCart } from "react-icons/bs";
 
 import { useLogin } from '../../providers/login';
+import { useProducts } from "../../providers/products";
 
 import Logo from "../Logo";
 import { NavLink } from "./NavLink";
@@ -16,6 +18,7 @@ import { ItemMenu } from '../../components/DropDownMenu/ItemMenu';
 
 const TopMenu = () => {
   const { loginAuth, userData } = useLogin();
+  const { cart } = useProducts();
   const [userMenuState, setUserMenuState] = useState(false);
   const history = useNavigate();
 
@@ -29,16 +32,20 @@ const TopMenu = () => {
     Cookies.remove("user");
     Cookies.remove("userToken");
     history(0);
-  }
+  };
+
+  const getCartData = () => cart.length === 0 ? '' : `(${cart.length})`;
+
+  const cartLabel = () => <span><BsCart /> Carrinho {getCartData()}</span>;
 
   return (
     <Nav>
       <Logo />
       <Bars />
       <NavMenu>
-        {loginAuth && (<NavLink route="/perfil" label="Perfil" />)}
         <NavLink route="/" label="Catálogo" />
         <NavLink route="/sobre" label="Sobre" />
+        {loginAuth && (<NavLink route="/carrinho" label={cartLabel()} />)}
       </NavMenu>
       <NavBtn>
         {!loginAuth && (<NavButtonLink to="/login">Entrar</NavButtonLink>)}

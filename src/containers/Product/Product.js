@@ -5,8 +5,10 @@ import {
   GiCentaurHeart,
   GiSpeedometer,
 } from "react-icons/gi";
-import { FaCartPlus } from "react-icons/fa";
+import { BsCartPlus } from "react-icons/bs";
 import styled from "styled-components";
+
+import { useProducts } from "../../providers/products";
 
 import colors from "../../helpers/colors";
 
@@ -17,6 +19,7 @@ import Loading from "../../components/Loading";
 import BigButton from "../../components/BigButton";
 
 const Product = () => {
+  const { addToCart } = useProducts();
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -65,7 +68,7 @@ const Product = () => {
             </div>
           ))}
           <ButtonArea>
-            <BigButton><FaCartPlus /> Adicionar ao carrinho</BigButton>
+            <BigButton onClick={() => addToCart(product.id)}><BsCartPlus /> Adicionar ao carrinho</BigButton>
           </ButtonArea>
         </div>
       </Container>
