@@ -12,4 +12,15 @@ const createSell = async (data, token) =>
       return error.response.data;
   });
 
-export { createSell };
+const getUserSells = async (id, token) =>
+  axios
+    .get(`${URL_BACK}/getUserSells/${id}`, { headers: { 'Authorization': token } })
+    .then((res) => res.data)
+    .catch((error) => {
+      if (!error.response) {
+        return false;
+      }
+      return error.response.data;
+  });
+
+export { createSell, getUserSells };
